@@ -1,4 +1,4 @@
-library(animation)
+
 library(schoolmath)
 
 # pieces set up ---------------------------------------------------------------
@@ -111,21 +111,21 @@ maxMovesFun = function(piece, activePieces, pieceCol, chosenMove, multiplier){
         }
         
         else if((piece$XLoc + chosenMove[1]*n) > max(X_Positions) || 
-           (piece$XLoc + chosenMove[1]*n) < min(X_Positions) ||
-           (piece$YLoc + chosenMove[2]*n) > max(Y_Positions) ||
-           (piece$YLoc + chosenMove[2]*n) < min(Y_Positions)||
-           nrow(activePieces[activePieces$XLoc == (piece$XLoc + chosenMove[1]*n) &
-                             activePieces$YLoc == (piece$YLoc + chosenMove[2]*n) &
-                             activePieces$Colour == pieceCol,]) ==1 ||
-           nrow(activePieces[activePieces$XLoc == (piece$XLoc + chosenMove[1]*0.5*n) &
-                             activePieces$YLoc == (piece$YLoc + chosenMove[2]*0.5*n) &
-                             activePieces$Colour == pieceCol,]) ==1 ||
-           nrow(activePieces[activePieces$XLoc == (piece$XLoc + chosenMove[1]*n) &
-                             activePieces$YLoc == (piece$YLoc + chosenMove[2]*n) &
-                             activePieces$Colour != pieceCol,]) ==1 ||
-           nrow(activePieces[activePieces$XLoc == (piece$XLoc + chosenMove[1]*0.5*n) &
-                             activePieces$YLoc == (piece$YLoc + chosenMove[2]*0.5*n) &
-                             activePieces$Colour != pieceCol,]) ==1 )
+                (piece$XLoc + chosenMove[1]*n) < min(X_Positions) ||
+                (piece$YLoc + chosenMove[2]*n) > max(Y_Positions) ||
+                (piece$YLoc + chosenMove[2]*n) < min(Y_Positions)||
+                nrow(activePieces[activePieces$XLoc == (piece$XLoc + chosenMove[1]*n) &
+                                  activePieces$YLoc == (piece$YLoc + chosenMove[2]*n) &
+                                  activePieces$Colour == pieceCol,]) ==1 ||
+                nrow(activePieces[activePieces$XLoc == (piece$XLoc + chosenMove[1]*0.5*n) &
+                                  activePieces$YLoc == (piece$YLoc + chosenMove[2]*0.5*n) &
+                                  activePieces$Colour == pieceCol,]) ==1 ||
+                nrow(activePieces[activePieces$XLoc == (piece$XLoc + chosenMove[1]*n) &
+                                  activePieces$YLoc == (piece$YLoc + chosenMove[2]*n) &
+                                  activePieces$Colour != pieceCol,]) ==1 ||
+                nrow(activePieces[activePieces$XLoc == (piece$XLoc + chosenMove[1]*0.5*n) &
+                                  activePieces$YLoc == (piece$YLoc + chosenMove[2]*0.5*n) &
+                                  activePieces$Colour != pieceCol,]) ==1 )
         {
           maxMoves = 0
           break()
@@ -138,12 +138,12 @@ maxMovesFun = function(piece, activePieces, pieceCol, chosenMove, multiplier){
       }
       
       else if((piece$XLoc + chosenMove[1]*n) > max(X_Positions) || 
-         (piece$XLoc + chosenMove[1]*n) < min(X_Positions) ||
-         (piece$YLoc + chosenMove[2]*n) > max(Y_Positions) ||
-         (piece$YLoc + chosenMove[2]*n) < min(Y_Positions)||
-         nrow(activePieces[activePieces$XLoc == (piece$XLoc + chosenMove[1]*n) &
-                           activePieces$YLoc == (piece$YLoc + chosenMove[2]*n) &
-                           activePieces$Colour == pieceCol,]) == 1){
+              (piece$XLoc + chosenMove[1]*n) < min(X_Positions) ||
+              (piece$YLoc + chosenMove[2]*n) > max(Y_Positions) ||
+              (piece$YLoc + chosenMove[2]*n) < min(Y_Positions)||
+              nrow(activePieces[activePieces$XLoc == (piece$XLoc + chosenMove[1]*n) &
+                                activePieces$YLoc == (piece$YLoc + chosenMove[2]*n) &
+                                activePieces$Colour == pieceCol,]) == 1){
         maxMoves = 0
         break()
         
@@ -183,6 +183,7 @@ inCheck = function(activePieces, pieceCol){
   RMoves = list(c(1,0), c(-1,0), c(0,1), c(0,-1))
   NMoves = list(c(1,2), c(-1,2), c(1,-2), c(-1,-2), c(2,1), c(2,-1),c(-2,1), c(-2,-1))
   QMoves = list(c(1,1), c(-1,1), c(1,-1), c(-1,-1),c(1,0), c(-1,0), c(0,1), c(0,-1))
+  KMoves = list(c(1,1), c(-1,1), c(1,-1), c(-1,-1),c(1,0), c(-1,0), c(0,1), c(0,-1))
   
   king = activePieces[activePieces$Type == "King" & activePieces$Colour == pieceCol,]
   Threats = 0
@@ -195,7 +196,7 @@ inCheck = function(activePieces, pieceCol){
         Threats = Threats + 1
       }
       else if(nrow(activePieces[activePieces$XLoc == (king$XLoc + RMoves[[x]][1]*w) & activePieces$YLoc == (king$YLoc + RMoves[[x]][2]*w) & 
-                           activePieces$Colour != pieceCol & activePieces$Type == "Queen",]) == 1 ){
+                                activePieces$Colour != pieceCol & activePieces$Type == "Queen",]) == 1 ){
         Threats = Threats + 1
       }
       else if(nrow(activePieces[activePieces$XLoc == (king$XLoc + RMoves[[x]][1]*w) & activePieces$YLoc == (king$YLoc + RMoves[[x]][2]*w) & 
@@ -210,7 +211,7 @@ inCheck = function(activePieces, pieceCol){
   }
   
   #check for diagonal checks
-
+  
   for(x in 1:4){
     for(w in 1:8){
       if(nrow(activePieces[activePieces$XLoc == (king$XLoc + BMoves[[x]][1]*w) & activePieces$YLoc == (king$YLoc + BMoves[[x]][2]*w) & 
@@ -239,7 +240,7 @@ inCheck = function(activePieces, pieceCol){
                            activePieces$Colour != pieceCol & activePieces$Type == "Night",] ) == 1 ){
         Threats = Threats + 1
       }
-
+      
       else if(nrow(activePieces[activePieces$XLoc == (king$XLoc + NMoves[[x]][1]*w) & activePieces$YLoc == (king$YLoc + NMoves[[x]][2]*w) & 
                                 activePieces$Colour != pieceCol & activePieces$Type != "Night",]) == 1 ){
         break()
@@ -259,30 +260,50 @@ inCheck = function(activePieces, pieceCol){
   if(pieceCol == "Black"){pawnMates = wPMoves}
   
   for(x in 3:4){
-    for(w in 1:1){
-      if(nrow(activePieces[activePieces$XLoc == (king$XLoc + pawnMates[[x]][1]*w) & activePieces$YLoc == (king$YLoc + pawnMates[[x]][2]*w) & 
+      if(nrow(activePieces[activePieces$XLoc == (king$XLoc - pawnMates[[x]][1]) & activePieces$YLoc == (king$YLoc - pawnMates[[x]][2]) & 
                            activePieces$Colour != pieceCol & activePieces$Type == "Pawn",] ) == 1 ){
         Threats = Threats + 1
       }
       
-      else if(nrow(activePieces[activePieces$XLoc == (king$XLoc + pawnMates[[x]][1]*w) & activePieces$YLoc == (king$YLoc + pawnMates[[x]][2]*w) & 
+      else if(nrow(activePieces[activePieces$XLoc == (king$XLoc - pawnMates[[x]][1]) & activePieces$YLoc == (king$YLoc - pawnMates[[x]][2]) & 
                                 activePieces$Colour != pieceCol & activePieces$Type != "Pawn",]) == 1 ){
         break()
       }
-      else if(nrow(activePieces[activePieces$XLoc == (king$XLoc + pawnMates[[x]][1]*w) & activePieces$YLoc == (king$YLoc + pawnMates[[x]][2]*w) & 
+      else if(nrow(activePieces[activePieces$XLoc == (king$XLoc - pawnMates[[x]][1]) & activePieces$YLoc == (king$YLoc - pawnMates[[x]][2]) & 
                                 activePieces$Colour == pieceCol,]) == 1){
+        break()
+      }
+      else{}  
+    
+  }
+  
+  #dont let kings get within 1 square
+  
+  for(x in 1:8){
+    for(w in 1:1){
+      if(nrow(activePieces[activePieces$XLoc == (king$XLoc + KMoves[[x]][1]*w) & activePieces$YLoc == (king$YLoc + KMoves[[x]][2]*w) & 
+                           activePieces$Colour != pieceCol & activePieces$Type == "King",] ) == 1 ){
+        Threats = Threats + 1
+      }
+      
+      else if(nrow(activePieces[activePieces$XLoc == (king$XLoc + KMoves[[x]][1]*w) & activePieces$YLoc == (king$YLoc + KMoves[[x]][2]*w) & 
+                                activePieces$Colour != pieceCol & activePieces$Type != "King",]) == 1 ){
+        break()
+      }
+      else if(nrow(activePieces[activePieces$XLoc == (king$XLoc + KMoves[[x]][1]*w) & activePieces$YLoc == (king$YLoc + KMoves[[x]][2]*w) & activePieces$Colour == pieceCol,]) == 1){
         break()
       }
       else{}  
     }
   }
+  
   if(Threats > 0){return(TRUE)}
-    if(Threats == 0){return(FALSE)}
+  if(Threats == 0){return(FALSE)}
 }
 
 # does this move capture anything?  -----------------------------------------------
 
-moveScore = function(activePieces, piece, pieceCol, y, z){
+moveScore = function(activePieces, piece, pieceCol, opponent, y, z){
   points = 0
   if(piece$Type == "Pawn" & y[1] == 0){points = 0}
   else if(nrow(activePieces[activePieces$XLoc == (piece$XLoc + y[1]*z) &
@@ -290,8 +311,8 @@ moveScore = function(activePieces, piece, pieceCol, y, z){
                             activePieces$Colour != pieceCol,])==1){
     
     takenPiece = activePieces[activePieces$XLoc == (piece$XLoc + y[1]*z) &
-                   activePieces$YLoc == (piece$YLoc + y[2]*z) &
-                   activePieces$Colour != pieceCol,]
+                                activePieces$YLoc == (piece$YLoc + y[2]*z) &
+                                activePieces$Colour != pieceCol,]
     
     if(takenPiece$Type == "Pawn"){points = 1}
     if(takenPiece$Type == "Night" || takenPiece$Type == "Bishop"){points = 3}
@@ -304,151 +325,142 @@ moveScore = function(activePieces, piece, pieceCol, y, z){
   
   activePieces[match(rownames(piece), rownames(activePieces)),]$XLoc = piece$XLoc + y[1]*z
   activePieces[match(rownames(piece), rownames(activePieces)),]$YLoc = piece$YLoc + y[2]*z
+  activePieces$Taken[activePieces$XLoc == piece$XLoc+ y[1]*z &
+                       activePieces$Colour != pieceCol &
+                       activePieces$YLoc == piece$YLoc+ y[2]*z] = 1
+  activePieces = activePieces[activePieces$Taken == 0,]
   
+  if(inCheck(activePieces, opponent) == TRUE){points = points + 50}
   if(inCheck(activePieces, pieceCol) == TRUE){points = -100}
   else{}
   
   return(points)
 }
 
-# Loop -----------------------------------------------------------------------------
+# can i castle? --------------------------------------------------------------------
 
-ani.options(interval=1)
-saveGIF({ par(bg = "grey")
+canCastleKingside = function(activePieces, pieceCol){
+  if(pieceCol == "White"){
+    if(activePieces[activePieces$Type == "King" & activePieces$Colour == "White",]$Moves == 0 &
+       nrow(activePieces[activePieces$Type == "Rook" & activePieces$Colour == "White" & activePieces$XLoc == 8
+                    & activePieces$Moves == 0,]) == 1 &
+       nrow(activePieces[activePieces$XLoc == 6 & activePieces$YLoc == 1,]) == 0 &
+       nrow(activePieces[activePieces$XLoc == 7 & activePieces$YLoc == 1,]) == 0){
+      
+      activePieces[activePieces$Type == "King" & activePieces$Colour == "White",]$XLoc = 7
+      activePieces[activePieces$Type == "Rook" & activePieces$Colour == "White" & activePieces$XLoc == 8,]$XLoc = 6
+      if(inCheck(activePieces, pieceCol) == TRUE){return(FALSE)}
+      if(inCheck(activePieces, pieceCol) == FALSE){return(TRUE)}
+    }
+    else{return(FALSE)}
+  }
+  
+  if(pieceCol == "Black"){
+    if(activePieces[activePieces$Type == "King" & activePieces$Colour == "Black",]$Moves == 0 &
+       nrow(activePieces[activePieces$Type == "Rook" & activePieces$Colour == "Black" & activePieces$XLoc == 8
+                    & activePieces$Moves == 0,]) == 1 &
+       nrow(activePieces[activePieces$XLoc == 6 & activePieces$YLoc == 8,]) == 0 &
+       nrow(activePieces[activePieces$XLoc == 7 & activePieces$YLoc == 8,]) == 0){
+      
+      activePieces[activePieces$Type == "King" & activePieces$Colour == "Black",]$XLoc = 7
+      activePieces[activePieces$Type == "Rook" & activePieces$Colour == "Black" & activePieces$XLoc == 8,]$XLoc = 6
+      if(inCheck(activePieces, pieceCol) == TRUE){return(FALSE)}
+      if(inCheck(activePieces, pieceCol) == FALSE){return(TRUE)}
+    }
+    else{return(FALSE)}
+  }
+  
+}
+
+canCastleQueenside = function(activePieces, pieceCol){
+  if(pieceCol == "White"){
+    if(activePieces[activePieces$Type == "King" & activePieces$Colour == "White",]$Moves == 0 &
+       nrow(activePieces[activePieces$Type == "Rook" & activePieces$Colour == "White" & activePieces$XLoc == 1 
+                         & activePieces$Moves == 0,]) == 1 &
+       nrow(activePieces[activePieces$XLoc == 2 & activePieces$YLoc == 1,]) == 0 &
+       nrow(activePieces[activePieces$XLoc == 3 & activePieces$YLoc == 1,]) == 0 &
+       nrow(activePieces[activePieces$XLoc == 4 & activePieces$YLoc == 1,]) == 0){
+      
+      activePieces[activePieces$Type == "King" & activePieces$Colour == "White",]$XLoc = 3
+      activePieces[activePieces$Type == "Rook" & activePieces$Colour == "White" & activePieces$XLoc == 1,]$XLoc = 4
+      if(inCheck(activePieces, pieceCol) == TRUE){return(FALSE)}
+      if(inCheck(activePieces, pieceCol) == FALSE){return(TRUE)}
+    }
+    else{return(FALSE)}
+  }
+  
+  if(pieceCol == "Black"){
+    if(activePieces[activePieces$Type == "King" & activePieces$Colour == "Black",]$Moves == 0 &
+       nrow(activePieces[activePieces$Type == "Rook" & activePieces$Colour == "Black" & activePieces$XLoc == 1
+                    & activePieces$Moves == 0,]) == 1 &
+       nrow(activePieces[activePieces$XLoc == 2 & activePieces$YLoc == 8,]) == 0 &
+       nrow(activePieces[activePieces$XLoc == 3 & activePieces$YLoc == 8,]) == 0 &
+       nrow(activePieces[activePieces$XLoc == 4 & activePieces$YLoc == 8,]) == 0){
+      
+      activePieces[activePieces$Type == "King" & activePieces$Colour == "Black",]$XLoc = 3
+      activePieces[activePieces$Type == "Rook" & activePieces$Colour == "Black" & activePieces$XLoc == 1,]$XLoc = 4
+      if(inCheck(activePieces, pieceCol) == TRUE){return(FALSE)}
+      if(inCheck(activePieces, pieceCol) == FALSE){return(TRUE)}
+    }
+    else{return(FALSE)}
+  }
+  
+}
+
+#make move --------------------------------------------------------------------------
+
+makeMove = function(activePieces, bestMove){
+  chosenPiece = activePieces[match(bestMove$PieceID, rownames(activePieces)),]
+  
+  if(chosenPiece$Type == "Pawn" & pieceCol == "White"){nmoves = wPMoves}
+  if(chosenPiece$Type == "Pawn" & pieceCol == "Black"){nmoves = bPMoves}
+  if(chosenPiece$Type == "Bishop"){nmoves = BMoves}
+  if(chosenPiece$Type == "Rook"){nmoves = RMoves}
+  if(chosenPiece$Type == "Night"){nmoves = NMoves}
+  if(chosenPiece$Type == "Queen"){nmoves = QMoves}
+  if(chosenPiece$Type == "King"){nmoves = KMoves}
+  
+  noMoves = bestMove$NoSpaces
+  nextMove = nmoves[[bestMove$Move]]
+  
+  print(paste(activePieces[match(bestMove$PieceID,rownames(activePieces)),]$Type, paste0(letters[activePieces[match(bestMove$PieceID,rownames(activePieces)),]$XLoc], 
+                                                                                         activePieces[match(bestMove$PieceID,rownames(activePieces)),]$YLoc), "to", 
+              paste0(letters[activePieces[match(bestMove$PieceID,rownames(activePieces)),]$XLoc + nextMove[1]*noMoves], 
+                     activePieces[match(bestMove$PieceID,rownames(activePieces)),]$YLoc + nextMove[2]*noMoves)))
+  
+  
+  activePieces$XLoc[match(bestMove$PieceID,rownames(activePieces))] = chosenPiece$XLoc + nextMove[1]*noMoves
+  activePieces$YLoc[match(bestMove$PieceID,rownames(activePieces))] = chosenPiece$YLoc + nextMove[2]*noMoves
+  activePieces$Moves[match(bestMove$PieceID,rownames(activePieces))] = chosenPiece$Moves + 1
+  
+  
+  activePieces$Taken[activePieces$XLoc == activePieces$XLoc[match(bestMove$PieceID,rownames(activePieces))] &
+                       activePieces$Colour != pieceCol &
+                       activePieces$YLoc == activePieces$YLoc[match(bestMove$PieceID,rownames(activePieces))]] = 1
+  activePieces = activePieces[activePieces$Taken == 0,]
+  
+  
+  
+  
+  activePieces$Type[activePieces$Type == "Pawn" & activePieces$YLoc == 8 & activePieces$Colour == "White"] = "Queen"
+  activePieces$Type[activePieces$Type == "Pawn" & activePieces$YLoc == 1 & activePieces$Colour == "Black"] = "Queen"
+  
+  return(activePieces)
+}
+# Loop -----------------------------------------------------------------------------
+print("You play as white")
+print("Type the row number of your chosen move")
+print("Alternatively, type O-O to castle kingside, O-O-O to castle queenside")
+resign= 0
+par(bg = "grey")
   i = 1
   
   while(nrow(activePieces[activePieces$Type == "King",])>1){
-    if(is.even(i) == F){pieceCol = "White"}
-    else{pieceCol = "Black"}
-    #cn = sample(rownames(activePieces[activePieces$Colour == pieceCol,]),1)
-    evalTable = setNames(data.frame(matrix(ncol = 4, nrow = 0)), c("PieceID", "Move", "NoSpaces", "Points"))
-    
-    
-    for(cn in rownames(activePieces[activePieces$Colour == pieceCol,])){
-      
-    piece = activePieces[match(cn,rownames(activePieces)),]
-    
-    #pawn possible moves
-    #when attack is possible
-  
-    
-      if(piece$Type == "Pawn" & pieceCol == "White"){
-      multiplier = 1:1
-      if(nrow(activePieces[activePieces$XLoc == (piece$XLoc + 1) &
-                           activePieces$YLoc == (piece$YLoc + 1) & activePieces$Colour != pieceCol,])==1){
-        if(piece$Moves == 0){moves = wPMoves[c(1,2,3)]}
-        else{moves = wPMoves[c(1,3)]}
-      }
-      
-      else if(nrow(activePieces[activePieces$XLoc == (piece$XLoc - 1) &
-                                activePieces$YLoc == (piece$YLoc + 1) & activePieces$Colour != pieceCol,])==1){
-        if(piece$Moves == 0){moves = wPMoves[c(1,2,4)]}  #if first move, move 1 or 2 forwards
-        else{moves = wPMoves[c(1,4)]}
-      }
-      else{
-        if(piece$Moves ==0){moves = wPMoves[c(1,2)]}
-        else{moves = wPMoves[1]}
-      } 
-    }
-      if(piece$Type == "Pawn" & pieceCol == "Black"){
-      multiplier = 1:1
-      if(nrow(activePieces[activePieces$XLoc == (piece$XLoc + 1) &
-                           activePieces$YLoc == (piece$YLoc - 1) & activePieces$Colour != pieceCol,])==1){
-        if(piece$Moves == 0){moves = bPMoves[c(1,2,3)]}
-        else{moves = bPMoves[c(1,3)]}
-      }
-      
-      else if(nrow(activePieces[activePieces$XLoc == (piece$XLoc - 1) &
-                                activePieces$YLoc == (piece$YLoc - 1) & activePieces$Colour != pieceCol,])==1){
-        if(piece$Moves == 0){moves = bPMoves[c(1,2,4)]}
-        else{moves = bPMoves[c(1,4)]}
-      }
-      else{
-        if(piece$Moves ==0){moves = bPMoves[c(1,2)]}
-        else{moves = bPMoves[1]}
-      } 
-    }
-      if(piece$Type == "Bishop"){moves = BMoves
-    multiplier = 1:8}
-      if(piece$Type == "Rook"){moves = RMoves
-    multiplier = 1:8}
-      if(piece$Type == "Night"){moves = NMoves
-    multiplier = 1:1}
-      if(piece$Type == "Queen"){moves = QMoves
-    multiplier = 1:8}
-      if(piece$Type == "King"){moves = KMoves
-    multiplier = 1:1}
-    
-    for(y in 1:length(moves)){      
-      
-      chosenMove = moves[[y]]
-
-      maxMoves = maxMovesFun(piece, activePieces, pieceCol, chosenMove, multiplier)
-      if(piece$Type == "Pawn" & piece$Moves > 0 & y == 2){}
-      else if(maxMoves > 0){
-        
-        
-        evalTable2 = setNames(data.frame(matrix(ncol = 4, nrow = 1)), c("PieceID", "Move", "NoSpaces", "Points"))
-        
-        evalTable2$PieceID = cn
-        evalTable2$Move = y
-        evalTable2$NoSpaces = maxMoves
-        evalTable2$Points = moveScore(activePieces, piece, pieceCol, chosenMove, maxMoves)
-        
-        evalTable = rbind(evalTable, evalTable2)
-        
-        
-        }
-      else{}
-  
-
-      }
-    
-    }
-       
-    evalTable = evalTable[order(-evalTable$Points),]
-    bestMove = head(evalTable, 1)
-    if(bestMove$Points == 0){
-      bestMove = evalTable[sample(rownames(evalTable[evalTable$Points == 0,]), 1),]
-    }
-    
-    chosenPiece = activePieces[match(bestMove$PieceID, rownames(activePieces)),]
-    
-    if(chosenPiece$Type == "Pawn" & pieceCol == "White"){nmoves = wPMoves}
-    if(chosenPiece$Type == "Pawn" & pieceCol == "Black"){nmoves = bPMoves}
-    if(chosenPiece$Type == "Bishop"){nmoves = BMoves}
-    if(chosenPiece$Type == "Rook"){nmoves = RMoves}
-    if(chosenPiece$Type == "Night"){nmoves = NMoves}
-    if(chosenPiece$Type == "Queen"){nmoves = QMoves}
-    if(chosenPiece$Type == "King"){nmoves = KMoves}
-    
-    noMoves = bestMove$NoSpaces
-    nextMove = nmoves[[bestMove$Move]]
-    
-    activePieces$XLoc[match(bestMove$PieceID,rownames(activePieces))] = chosenPiece$XLoc + nextMove[1]*noMoves
-    activePieces$YLoc[match(bestMove$PieceID,rownames(activePieces))] = chosenPiece$YLoc + nextMove[2]*noMoves
-    activePieces$Moves[match(bestMove$PieceID,rownames(activePieces))] = chosenPiece$Moves + 1
-    
-
-      activePieces$Taken[activePieces$XLoc == activePieces$XLoc[match(bestMove$PieceID,rownames(activePieces))] &
-                           activePieces$Colour != pieceCol &
-                     activePieces$YLoc == activePieces$YLoc[match(bestMove$PieceID,rownames(activePieces))]] = 1
-      activePieces = activePieces[activePieces$Taken == 0,]
-    
-    
-                
-                  
-    activePieces$Type[activePieces$Type == "Pawn" & activePieces$YLoc == 8 & activePieces$Colour == "White"] = "Queen"
-    activePieces$Type[activePieces$Type == "Pawn" & activePieces$YLoc == 1 & activePieces$Colour == "Black"] = "Queen"
-    
-    if(nrow(activePieces[activePieces$Type == "King",]) < 2){
-      print(paste(pieceCol, "wins!"))
-    }
-    
-    i = i + 1
     
     #plot board
-    plot(1, type="n", xlab="", ylab="", xlim=c(0.5, 8.5), ylim=c(0.5, 8.5))
+    plot(1, type="n", xlab="", ylab="", xlim=c(0.5, 8.5), ylim=c(0.5, 8.5), xaxt = "n")
+    axis(1, at=1:8, labels=letters[1:8])
+    axis(2, at=1:8, labels=1:8)
     for(j in c(1,3,5,7)){
       for(k in c(1,3,5,7)){
         rect(j-0.5, k - 0.5, j +0.5, k+0.5, col = "darkgrey", border = NA)
@@ -462,6 +474,190 @@ saveGIF({ par(bg = "grey")
     
     points(data = activePieces, YLoc ~ XLoc, pch = Type, col = Colour)
     
-  }
+    if(is.even(i) == F){pieceCol = "White"
+                        opponent = "Black"}
+    else{pieceCol = "Black"
+          opponent = "White"}
 
-}, interval = 0.5, movie.name = "chess.gif", ani.width = 500, ani.height = 500)
+    evalTable = setNames(data.frame(matrix(ncol = 5, nrow = 0)), c("PieceID", "Move", "NoSpaces", "Points", "Position"))
+    
+    
+    for(cn in rownames(activePieces[activePieces$Colour == pieceCol,])){
+      
+      piece = activePieces[match(cn,rownames(activePieces)),]
+      
+      #pawn possible moves
+      #when attack is possible
+      
+      
+      if(piece$Type == "Pawn" & pieceCol == "White"){
+        multiplier = 1:1
+        if(nrow(activePieces[activePieces$XLoc == (piece$XLoc + 1) &
+                             activePieces$YLoc == (piece$YLoc + 1) & activePieces$Colour != pieceCol,])==1){
+          if(piece$Moves == 0){moves = wPMoves[c(1,2,3)]
+                              names(moves) = c(1,2,3)}
+          else{moves = wPMoves[c(1,3)]
+              names(moves) = c(1,3)}
+        }
+        
+        else if(nrow(activePieces[activePieces$XLoc == (piece$XLoc - 1) &
+                                  activePieces$YLoc == (piece$YLoc + 1) & activePieces$Colour != pieceCol,])==1){
+          if(piece$Moves == 0){moves = wPMoves[c(1,2,4)]
+                              names(moves) = c(1,2,4)}  #if first move, move 1 or 2 forwards
+          else{moves = wPMoves[c(1,4)]
+              names(moves) = c(1,4)}
+        }
+        else{
+          if(piece$Moves ==0){moves = wPMoves[c(1,2)]
+                              names(moves) = c(1,2)}
+          else{moves = wPMoves[1]
+              names(moves) = c(1)
+          }
+        } 
+      }
+      if(piece$Type == "Pawn" & pieceCol == "Black"){
+        multiplier = 1:1
+        if(nrow(activePieces[activePieces$XLoc == (piece$XLoc + 1) &
+                             activePieces$YLoc == (piece$YLoc - 1) & activePieces$Colour != pieceCol,])==1){
+          if(piece$Moves == 0){moves = bPMoves[c(1,2,3)]
+                              names(moves) = c(1,2,3)}
+          else{moves = bPMoves[c(1,3)]
+          names(moves) = c(1,3)}
+        }
+        
+        else if(nrow(activePieces[activePieces$XLoc == (piece$XLoc - 1) &
+                                  activePieces$YLoc == (piece$YLoc - 1) & activePieces$Colour != pieceCol,])==1){
+          if(piece$Moves == 0){moves = bPMoves[c(1,2,4)]
+          names(moves) = c(1,2,4)}
+          else{moves = bPMoves[c(1,4)]
+          names(moves) = c(1,4)}
+        }
+        else{
+          if(piece$Moves ==0){moves = bPMoves[c(1,2)]
+          names(moves) = c(1,2)}
+          else{moves = bPMoves[1]
+          names(moves) = c(1)}
+        } 
+      }
+      if(piece$Type == "Bishop"){moves = BMoves
+      names(moves) = c(1,2,3,4)
+      multiplier = 1:8}
+      if(piece$Type == "Rook"){moves = RMoves
+      names(moves) = c(1,2,3,4)
+      multiplier = 1:8}
+      if(piece$Type == "Night"){moves = NMoves
+      names(moves) = c(1,2,3,4,5,6,7,8)
+      multiplier = 1:1}
+      if(piece$Type == "Queen"){moves = QMoves
+      names(moves) = c(1,2,3,4,5,6,7,8)
+      multiplier = 1:8}
+      if(piece$Type == "King"){moves = KMoves
+      names(moves) = c(1,2,3,4,5,6,7,8)
+      multiplier = 1:1}
+      
+      for(y in as.numeric(names(moves))){      
+        
+        chosenMove = moves[[as.character(y)]]
+        
+        maxMoves = maxMovesFun(piece, activePieces, pieceCol, chosenMove, multiplier)
+        if(piece$Type == "Pawn" & piece$Moves > 0 & y == 2){}
+        else if(maxMoves > 0){
+          for(e in 1:maxMoves){
+          
+          evalTable2 = setNames(data.frame(matrix(ncol = 5, nrow = 1)), c("PieceID", "Move", "NoSpaces", "Points", "Position"))
+          
+          evalTable2$PieceID = cn
+          evalTable2$Move = y
+          evalTable2$NoSpaces = e
+          evalTable2$Points = moveScore(activePieces, piece, pieceCol, opponent, chosenMove, e)
+          evalTable2$Position = paste(activePieces[match(cn,rownames(activePieces)),]$Type, paste0(letters[activePieces[match(cn,rownames(activePieces)),]$XLoc], 
+                                      activePieces[match(cn,rownames(activePieces)),]$YLoc), "to", 
+                                      paste0(letters[activePieces[match(cn,rownames(activePieces)),]$XLoc + chosenMove[1]*e], 
+                                      activePieces[match(cn,rownames(activePieces)),]$YLoc + chosenMove[2]*e))
+          
+          evalTable = rbind(evalTable, evalTable2)
+          
+          }
+        }
+        else{}
+        
+        
+      }
+      
+    }
+    
+    if(nrow(evalTable[evalTable$Points > -1,]) == 0 & inCheck(activePieces, pieceCol) == TRUE){
+      print(paste("CHECKMATE!", opponent,"wins!"))
+      break()
+    } 
+    if(nrow(evalTable[evalTable$Points > -1,]) == 0 & inCheck(activePieces, pieceCol) == FALSE){
+      print("STALEMATE!")
+      break()
+    }
+    if(nrow(activePieces) < 3){
+      print("STALEMATE!")
+      break()
+    }
+    
+    if(pieceCol == "Black"){
+          evalTable = evalTable[order(-evalTable$Points),]
+    bestMove = head(evalTable, 1)
+    
+    if(bestMove$Points == 0){
+      if(canCastleKingside(activePieces, pieceCol) == T){        
+      activePieces[activePieces$Type == "King" & activePieces$Colour == "Black"]$XLoc = 7
+      activePieces[activePieces$Type == "Rook" & activePieces$Colour == "Black" & activePieces$XLoc == 8]$XLoc = 6
+      }
+      else if(canCastleQueenside(activePieces, pieceCol) == T){
+        activePieces[activePieces$Type == "King" & activePieces$Colour == "Black"]$XLoc = 3
+        activePieces[activePieces$Type == "Rook" & activePieces$Colour == "Black" & activePieces$XLoc == 1]$XLoc = 4
+      }
+      else{bestMove = evalTable[sample(rownames(evalTable[evalTable$Points == 0,]), 1),]
+      activePieces = makeMove(activePieces, bestMove)}
+      
+    }
+    else{activePieces = makeMove(activePieces, bestMove)}
+    
+    }
+    
+    if(pieceCol == "White"){
+      validMove = 0
+      while(validMove == 0){      
+        print(evalTable[evalTable$Points > -1, c(1,5)])
+        choice = readline(prompt = "Choose your move (enter rowname)")
+      if(choice %in% rownames(evalTable[evalTable$Points > -1,]) == T){
+              
+      bestMove = evalTable[choice,]
+      
+      activePieces = makeMove(activePieces, bestMove)
+      validMove = 1
+      }
+      else if(choice == "O-O" & canCastleKingside(activePieces, pieceCol) == T){
+        activePieces[activePieces$Type == "King" & activePieces$Colour == "White",]$XLoc = 7
+        activePieces[activePieces$Type == "Rook" & activePieces$Colour == "White" & activePieces$XLoc == 8,]$XLoc = 6
+        validMove = 1
+      }
+      else if(choice == "O-O-O" & canCastleQueenside(activePieces, pieceCol) == T){
+        activePieces[activePieces$Type == "King" & activePieces$Colour == "White",]$XLoc = 3
+        activePieces[activePieces$Type == "Rook" & activePieces$Colour == "White" & activePieces$XLoc == 1,]$XLoc = 4
+        validMove = 1
+      }
+        else if(choice == "resign"){print(paste(opponent, "wins!"))
+          resign = 1
+          break()}
+        
+      else{ print("Invalid choice, try again")}
+
+      }
+    }
+
+    if(resign == 1){break()}
+
+    if(nrow(activePieces[activePieces$Type == "King",]) < 2){
+      print(paste(pieceCol, "wins!"))
+    }
+    
+    i = i + 1
+    
+
+  }
