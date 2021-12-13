@@ -7,3 +7,5 @@ But it does work in the barest sense of the term, and can do castling and en pas
 How it works: when it's your turn you will be presented with a list of possible moves. Type the row number (not piece ID!) into the console and it'll move the 
 chosen piece to the chosen position. If you want to do something fancier either type in "O-O" for a king-side castle, "O-O-O" for a queen-side castle or "En Passant" followed
 by the file of the pawn to en passant (ex: "En Passant D" to en passant with the D pawn).
+
+To add: choose to be black or white for ELO testing purposes, and randomised black/white for normal play.
