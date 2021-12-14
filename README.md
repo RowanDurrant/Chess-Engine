@@ -8,4 +8,4 @@ How it works: when it's your turn you will be presented with a list of possible 
 chosen piece to the chosen position. If you want to do something fancier either type in "O-O" for a king-side castle, "O-O-O" for a queen-side castle or "En Passant" followed
 by the file of the pawn to en passant (ex: "En Passant D" to en passant with the D pawn).
 
-To add: choose to be black or white for ELO testing purposes, and randomised black/white for normal play.
+choose_black_or_white.R does what it says on the tin and is mostly for ELO testing purposes, complete_with_en_passant.R lets you play as white every time
