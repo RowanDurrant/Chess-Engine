@@ -310,11 +310,11 @@ moveScore = function(activePieces, piece, pieceCol, opponent, y, z){
                                 activePieces$YLoc == (piece$YLoc + y[2]*z) &
                                 activePieces$Colour != pieceCol,]
     
-    if(takenPiece$Type == "Pawn"){points = 1}
-    if(takenPiece$Type == "Night" || takenPiece$Type == "Bishop"){points = 3}
-    if(takenPiece$Type == "Rook"){points = 5}
-    if(takenPiece$Type == "Queen"){points = 9}
-    if(takenPiece$Type == "King"){points = 100}
+    if(takenPiece$Type == "Pawn"){points = points + 1}
+    if(takenPiece$Type == "Night" || takenPiece$Type == "Bishop"){points = points + 3}
+    if(takenPiece$Type == "Rook"){points = points + 5}
+    if(takenPiece$Type == "Queen"){points = points + 9}
+    if(takenPiece$Type == "King"){points = points + 100}
     
   }
   else{}
@@ -326,14 +326,14 @@ moveScore = function(activePieces, piece, pieceCol, opponent, y, z){
                        activePieces$YLoc == piece$YLoc+ y[2]*z] = 1
   activePieces = activePieces[activePieces$Taken == 0,]
   
-  if(inCheck(activePieces, opponent) == TRUE){points = points + 5}
+  if(inCheck(activePieces, opponent) == TRUE){points = points + 1}
   if(threatened(activePieces, piece, pieceCol ) == TRUE){
     if(piece$Type == "Pawn"){points = points - 1}
     if(piece$Type == "Night" || piece$Type == "Bishop"){points = points - 3}
     if(piece$Type == "Rook"){points = points - 5}
     if(piece$Type == "Queen"){points = points - 9}
   }
-  if(inCheck(activePieces, pieceCol) == TRUE){points = -100}
+  if(inCheck(activePieces, pieceCol) == TRUE){points = -1000}
   else{}
   
   return(points)
@@ -738,7 +738,7 @@ chessSim = function(){
       
     }
     
-    if(nrow(evalTable[evalTable$Points > -1,]) == 0 & inCheck(activePieces, pieceCol) == TRUE){
+    if(nrow(evalTable[evalTable$Points > -100,]) == 0 & inCheck(activePieces, pieceCol) == TRUE){
       print(paste("CHECKMATE!", opponent,"wins!"))
       break()
     } 
@@ -832,9 +832,11 @@ chessSim = function(){
           activePieces[activePieces$Type == "King" & activePieces$Colour == "Black",]$XLoc = 3
           activePieces[activePieces$Type == "Rook" & activePieces$Colour == "Black" & activePieces$XLoc == 1,]$XLoc = 4
         }
-          else{bestMove = evalTable[sample(rownames(evalTable[evalTable$Points == 0,]), 1),]
-          activePieces = makeMove(activePieces, bestMove, pieceCol)}
-        }
+          else{
+            pieceToMove = sample(evalTable$PieceID[evalTable$Points == 0], 1)
+            bestMove = evalTable[sample(rownames(evalTable[evalTable$Points == 0 & evalTable$PieceID == pieceToMove,]), 1),]
+            activePieces = makeMove(activePieces, bestMove, pieceCol)}
+          }
         
         else{bestMove = evalTable[sample(rownames(evalTable[evalTable$Points == 0,]), 1),]
         activePieces = makeMove(activePieces, bestMove, pieceCol)}
@@ -854,7 +856,7 @@ chessSim = function(){
       }
       validMove = 0
       while(validMove == 0){      
-        print(evalTable[evalTable$Points > -100, c(1,5)])
+        print(evalTable[evalTable$Points > -100, c(2,5)])
         choice = readline(prompt = "Choose your move (enter rowname)")
         if(choice %in% rownames(evalTable[evalTable$Points > -100,]) == T){
           bestMove = evalTable[choice,]
