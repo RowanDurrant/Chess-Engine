@@ -19,12 +19,16 @@ chessSim = function(){
     
     #plot board
     if(playerCol == "White"){
-      plot(1, type="n", xlab="", ylab="", xlim=c(0.5, 8.5), ylim=c(0.5, 8.5), xaxt = "n")
+      plot(1, type="n", xlab="", ylab="", xlim=c(0.5, 8.5), ylim=c(0.5, 8.5), xaxt = "n", yaxt = "n",
+           main = "Select row number to move, 'O-O' to castle kingside, 'O-O-O' to castle queenside, 
+           'En Passant' + file letter to take en passant, or 'resign' to stop")
       axis(1, at=1:8, labels=letters[1:8])
       axis(2, at=1:8, labels=1:8) 
     }
     if(playerCol == "Black"){
-      plot(1, type="n", xlab="", ylab="", xlim=rev(c(0.5, 8.5)), ylim=rev(c(0.5, 8.5)), xaxt = "n")
+      plot(1, type="n", xlab="", ylab="", xlim=rev(c(0.5, 8.5)), ylim=rev(c(0.5, 8.5)), xaxt = "n", yaxt = "n",
+           main = "Select row number to move, 'O-O' to castle kingside, 'O-O-O' to castle queenside, 
+           'En Passant' + file letter to take en passant, or 'resign' to stop")
       axis(1, at=1:8, labels=letters[1:8])
       axis(2, at=1:8, labels=1:8) 
     }
@@ -241,12 +245,12 @@ chessSim = function(){
           }
           
           else if(canCastleKingside(activePieces, pieceCol) == T){        
-            activePieces[activePieces$Type == "King" & activePieces$Colour == "Black",]$XLoc = 7
-            activePieces[activePieces$Type == "Rook" & activePieces$Colour == "Black" & activePieces$XLoc == 8,]$XLoc = 6
+            activePieces[activePieces$Type == "King" & activePieces$Colour == pieceCol,]$XLoc = 7
+            activePieces[activePieces$Type == "Rook" & activePieces$Colour == pieceCol & activePieces$XLoc == 8,]$XLoc = 6
           }
           else if(canCastleQueenside(activePieces, pieceCol) == T){
-            activePieces[activePieces$Type == "King" & activePieces$Colour == "Black",]$XLoc = 3
-            activePieces[activePieces$Type == "Rook" & activePieces$Colour == "Black" & activePieces$XLoc == 1,]$XLoc = 4
+            activePieces[activePieces$Type == "King" & activePieces$Colour == pieceCol,]$XLoc = 3
+            activePieces[activePieces$Type == "Rook" & activePieces$Colour == pieceCol & activePieces$XLoc == 1,]$XLoc = 4
           }
           else{
             pieceToMove = sample(evalTable$PieceID[evalTable$Points == 0], 1)
@@ -356,13 +360,13 @@ chessSim = function(){
         }
         
         else if(choice == "O-O" & canCastleKingside(activePieces, pieceCol) == T){
-          activePieces[activePieces$Type == "King" & activePieces$Colour == "White",]$XLoc = 7
-          activePieces[activePieces$Type == "Rook" & activePieces$Colour == "White" & activePieces$XLoc == 8,]$XLoc = 6
+          activePieces[activePieces$Type == "King" & activePieces$Colour == pieceCol,]$XLoc = 7
+          activePieces[activePieces$Type == "Rook" & activePieces$Colour == pieceCol & activePieces$XLoc == 8,]$XLoc = 6
           validMove = 1
         }
         else if(choice == "O-O-O" & canCastleQueenside(activePieces, pieceCol) == T){
-          activePieces[activePieces$Type == "King" & activePieces$Colour == "White",]$XLoc = 3
-          activePieces[activePieces$Type == "Rook" & activePieces$Colour == "White" & activePieces$XLoc == 1,]$XLoc = 4
+          activePieces[activePieces$Type == "King" & activePieces$Colour == pieceCol,]$XLoc = 3
+          activePieces[activePieces$Type == "Rook" & activePieces$Colour == pieceCol & activePieces$XLoc == 1,]$XLoc = 4
           validMove = 1
         }
         else if(choice == "resign"){print(paste(opponent, "wins!"))
