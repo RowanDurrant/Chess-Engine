@@ -20,7 +20,7 @@ chessSim = function(){
     #plot board
     if(playerCol == "White"){
       plot(1, type="n", xlab="", ylab="", xlim=c(0.5, 8.5), ylim=c(0.5, 8.5), xaxt = "n", yaxt = "n",
-           main = "Select row number to move, 'O-O' to castle kingside, 'O-O-O' to castle queenside, 
+           main = "Select row number to move, 'O-O' to castle kingside,\n'O-O-O' to castle queenside, 
            'En Passant' + file letter to take en passant, or 'resign' to stop")
       axis(1, at=1:8, labels=letters[1:8])
       axis(2, at=1:8, labels=1:8) 
@@ -44,7 +44,18 @@ chessSim = function(){
       }
     }
     
-    points(data = activePieces, YLoc ~ XLoc, pch = Type, col = Colour)
+    points(data = activePieces[activePieces$Type == "Queen",], YLoc ~ XLoc, 
+           pch = -0x265B, col = Colour, cex = 3)
+    points(data = activePieces[activePieces$Type == "King",], YLoc ~ XLoc, 
+           pch = -0x265A, col = Colour, cex = 3)
+    points(data = activePieces[activePieces$Type == "Rook",], YLoc ~ XLoc, 
+           pch = -0x265C, col = Colour, cex = 3)
+    points(data = activePieces[activePieces$Type == "Bishop",], YLoc ~ XLoc, 
+           pch = -0x265D, col = Colour, cex = 3)
+    points(data = activePieces[activePieces$Type == "Night",], YLoc ~ XLoc, 
+           pch = -0x265E, col = Colour, cex = 3)
+    points(data = activePieces[activePieces$Type == "Pawn",], YLoc ~ XLoc, 
+           pch = -0x265F, col = Colour, cex = 3)
     
     if(is.even(i) == F){pieceCol = "White"
     opponent = "Black"}
